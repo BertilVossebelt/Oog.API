@@ -1,0 +1,18 @@
+# Rider IDE files
+.idea
+
+# Sensitive files
+Oog.API/appsettings.json
+Oog.Migrations/AppSettings.cs
+
+# Other
+Oog.API/obj
+Oog.API/bin
+Oog.Domain/obj
+Oog.Domain/bin
+Oog.Migrations/obj
+Oog.Migrations/bin
+Oog.Tests/obj
+Oog.Tests/bin
+Oog.API.sln.DotSettings.user
+Oog.sln.DotSettings.user

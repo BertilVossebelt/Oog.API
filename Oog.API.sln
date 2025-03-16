@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oog.API", "Oog.API\Oog.API.csproj", "{755D3DC0-3768-44AC-A6A1-3F754AFD904C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oog.Domain", "Oog.Domain\Oog.Domain.csproj", "{EFA6D883-2604-418A-883C-6D84ADA2924E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oog.Tests", "Oog.Tests\Oog.Tests.csproj", "{33F18735-FFDA-4737-B11E-8FD867DECBAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oog.Migrations", "Oog.Migrations\Oog.Migrations.csproj", "{7571BB9D-7568-45AE-9AAD-7C98E0E6E6A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{755D3DC0-3768-44AC-A6A1-3F754AFD904C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{755D3DC0-3768-44AC-A6A1-3F754AFD904C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{755D3DC0-3768-44AC-A6A1-3F754AFD904C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{755D3DC0-3768-44AC-A6A1-3F754AFD904C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA6D883-2604-418A-883C-6D84ADA2924E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA6D883-2604-418A-883C-6D84ADA2924E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA6D883-2604-418A-883C-6D84ADA2924E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA6D883-2604-418A-883C-6D84ADA2924E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F18735-FFDA-4737-B11E-8FD867DECBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F18735-FFDA-4737-B11E-8FD867DECBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F18735-FFDA-4737-B11E-8FD867DECBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F18735-FFDA-4737-B11E-8FD867DECBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7571BB9D-7568-45AE-9AAD-7C98E0E6E6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7571BB9D-7568-45AE-9AAD-7C98E0E6E6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7571BB9D-7568-45AE-9AAD-7C98E0E6E6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7571BB9D-7568-45AE-9AAD-7C98E0E6E6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

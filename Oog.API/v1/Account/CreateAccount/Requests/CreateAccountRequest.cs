@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace API.v1.Account.CreateAccount.Requests;
+
+[method: JsonConstructor]
+public class CreateAccountRequest(string username, string password)
+{
+    [Required]
+    [EmailAddress]
+    public string Username { get; set; } = username;
+
+    [Required]
+    [MinLength(12)]
+    public string Password { get; set; } = password;
+}
