@@ -11,9 +11,9 @@ public static class Configuration
             .AddSwaggerGen()
             .AddCors(options =>
                 options.AddPolicy("_myAllowSpecificOrigins",
-                    builder =>
+                    corsPolicyBuilder =>
                     {
-                        builder.WithOrigins("http://localhost:5217", "http://localhost:5005", "https://localhost:7287")
+                        corsPolicyBuilder.WithOrigins("https://localhost:5050")
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
@@ -30,7 +30,7 @@ public static class Configuration
             app.UseSwagger().UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.UseCors("_myAllowSpecificOrigins");
 
         var jwtSecret = configuration.GetSection("JwtSettings:Secret").Value;

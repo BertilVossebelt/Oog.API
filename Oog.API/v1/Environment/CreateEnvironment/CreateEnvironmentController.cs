@@ -1,5 +1,4 @@
 ﻿using API.Common.Middlewares;
-using API.v1.Account.CreateAccount.Exceptions;
 using API.v1.Environment.CreateEnvironment.Interfaces;
 using API.v1.Environment.CreateEnvironment.Requests;
 
