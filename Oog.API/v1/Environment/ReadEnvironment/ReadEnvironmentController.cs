@@ -4,14 +4,14 @@ namespace API.v1.Environment.ReadEnvironment;
 
 public static class ReadEnvironmentController
 {
-    private static IReadEnvironmentHandler _readEnvironmentHandler = null!;
+    private static IReadEnvironmentRepository _readEnvironmentRepository = null!;
     
-    public static void MapReadEnvironmentEndpoints(this WebApplication app, IReadEnvironmentHandler readEnvironmentHandler)
+    public static void MapReadEnvironmentEndpoints(this WebApplication app, IReadEnvironmentRepository readEnvironmentRepository)
     {
-        _readEnvironmentHandler = readEnvironmentHandler;
+        _readEnvironmentRepository = readEnvironmentRepository;
         
         app.MapGet("api/v1/environment/read", (Delegate)Read)
-            .WithTags("Accounts");
+            .WithTags("Customer environments");
     }
 
     private static async Task<IResult> Read(HttpContext httpContext)
@@ -24,13 +24,12 @@ public static class ReadEnvironmentController
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
-            var environmentCollection = await _readEnvironmentHandler.Read(accountId);
+            var environmentCollection = await _readEnvironmentRepository.Read(accountId);
             
             return Results.Ok(environmentCollection);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.Message);
             var message = new { message = "Something unexpected happend" };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }

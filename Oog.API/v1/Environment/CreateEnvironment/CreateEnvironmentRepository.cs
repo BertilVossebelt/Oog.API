@@ -34,9 +34,8 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
             await transaction.CommitAsync();
             return (createdEnv, createdEnvAccount); 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine(ex.Message);
             await transaction.RollbackAsync();
             return (null, null);
         }
@@ -60,7 +59,6 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
                                              VALUES (@OwnerId, @EnvId, @Owner)
                                              RETURNING *
                                              """;
-        Console.WriteLine(envAccount.OwnerId);
         return await connection.QueryFirstOrDefaultAsync<EnvAccount>(insertEnvAccountQuery, envAccount, transaction);
     }
 }

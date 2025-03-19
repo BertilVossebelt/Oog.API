@@ -14,7 +14,7 @@ public static class CreateEnvironmentController
         
         app.MapPost("api/v1/environment/create", Create)
             .AddEndpointFilter<ValidationFilter<CreateEnvironmentRequest>>()
-            .WithTags("Accounts");
+            .WithTags("Customer environments");
     }
 
     private static async Task<IResult> Create(CreateEnvironmentRequest request, HttpContext httpContext)
@@ -31,9 +31,8 @@ public static class CreateEnvironmentController
 
             return Results.Ok(environmentDto);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.Message);
             var message = new { message = "Something unexpected happend" };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }

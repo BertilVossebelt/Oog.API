@@ -13,6 +13,7 @@
       <Folder Include="v1\Application\DeleteApplication\" />
       <Folder Include="v1\Application\ReadApplication\" />
       <Folder Include="v1\Application\UpdateApplication\" />
+      <Folder Include="v1\Environment\AddAccountToEnvironment\Exceptions\" />
       <Folder Include="v1\Environment\CreateEnvironment\Exceptions\" />
       <Folder Include="v1\Environment\DeleteEnvironment\" />
       <Folder Include="v1\Environment\ReadEnvironment\Exceptions\" />

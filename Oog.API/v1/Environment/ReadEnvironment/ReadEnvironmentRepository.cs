@@ -11,7 +11,13 @@ public class ReadEnvironmentRepository(CoreDbConnection coreDbConnection) : IRea
     {
         await using var connection = coreDbConnection.Connect();
         
-        const string query = "SELECT env.name FROM env_account JOIN env ON env_account.env_id = env.id WHERE account_id = @account_id";
+        const string query = """
+                             SELECT env.name, env.id, env_account.account_id AS OwnerId
+                             FROM env_account 
+                             JOIN env ON env_account.env_id = env.id 
+                             WHERE account_id = @account_id
+                             """;
+        
         return await connection.QueryAsync<EnvironmentDto>(query, new { account_id = accountId });
     }
 }

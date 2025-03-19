@@ -10,7 +10,7 @@ public class InvalidDataExceptionMiddleware(RequestDelegate? next)
         {
             if (next != null) await next.Invoke(context);
         }
-        catch (InvalidDataException e)
+        catch (InvalidDataException)
         {
             var json = JsonSerializer.Serialize("The request is missing one or more required fields.");
 
