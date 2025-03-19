@@ -6,8 +6,8 @@ using API.v1.Account.CreateAccount;
 using API.v1.Account.CreateAccount.Interfaces;
 using API.v1.Environment.CreateEnvironment;
 using API.v1.Environment.CreateEnvironment.Interfaces;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Interfaces;
+using API.v1.Environment.ReadEnvironment;
+using API.v1.Environment.ReadEnvironment.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

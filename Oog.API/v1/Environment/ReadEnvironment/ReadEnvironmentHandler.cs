@@ -1,10 +1,8 @@
-﻿using API.Common.Collections;
-using API.Common.DTOs;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Interfaces;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Requests;
+﻿using API.Common.DTOs;
+using API.v1.Environment.ReadEnvironment.Interfaces;
 using AutoMapper;
 
-namespace API.v1.Environment.ReadEnvironment.CreateEnvironment;
+namespace API.v1.Environment.ReadEnvironment;
 
 public class ReadEnvironmentHandler(IReadEnvironmentRepository readEnvironmentRepository, IMapper mapper) : IReadEnvironmentHandler
 {

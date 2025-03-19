@@ -1,10 +1,9 @@
-﻿using API.Common.Collections;
-using API.Common.Databases;
+﻿using API.Common.Databases;
 using API.Common.DTOs;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Interfaces;
+using API.v1.Environment.ReadEnvironment.Interfaces;
 using Dapper;
 
-namespace API.v1.Environment.ReadEnvironment.CreateEnvironment;
+namespace API.v1.Environment.ReadEnvironment;
 
 public class ReadEnvironmentRepository(CoreDbConnection coreDbConnection) : IReadEnvironmentRepository
 {

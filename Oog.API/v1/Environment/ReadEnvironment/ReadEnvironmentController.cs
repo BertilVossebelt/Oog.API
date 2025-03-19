@@ -1,8 +1,6 @@
-﻿using API.Common.DTOs;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Interfaces;
-using API.v1.Environment.ReadEnvironment.CreateEnvironment.Requests;
+﻿using API.v1.Environment.ReadEnvironment.Interfaces;
 
-namespace API.v1.Environment.ReadEnvironment.CreateEnvironment;
+namespace API.v1.Environment.ReadEnvironment;
 
 public static class ReadEnvironmentController
 {
