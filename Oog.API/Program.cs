@@ -6,6 +6,8 @@ using API.v1.Account.CreateAccount;
 using API.v1.Account.CreateAccount.Interfaces;
 using API.v1.Environment.CreateEnvironment;
 using API.v1.Environment.CreateEnvironment.Interfaces;
+using API.v1.Environment.ReadEnvironment.CreateEnvironment;
+using API.v1.Environment.ReadEnvironment.CreateEnvironment.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.AddScoped<IAuthenticateAccountRepository, AuthenticateAccountRe
 builder.Services.AddScoped<ICreateEnvironmentHandler, CreateEnvironmentHandler>();
 builder.Services.AddScoped<ICreateEnvironmentRepository, CreateEnvironmentRepository>();
 
+builder.Services.AddScoped<IReadEnvironmentHandler, ReadEnvironmentHandler>();
+builder.Services.AddScoped<IReadEnvironmentRepository, ReadEnvironmentRepository>();
+
 builder.RegisterServices();
 
 var app = builder.Build();
@@ -35,10 +40,12 @@ using var scope = app.Services.CreateScope();
 var createAccountHandler = scope.ServiceProvider.GetRequiredService<ICreateAccountHandler>();
 var authenticateAccountHandler = scope.ServiceProvider.GetRequiredService<IAuthenticateAccountHandler>();
 var createEnvironmentHandler = scope.ServiceProvider.GetRequiredService<ICreateEnvironmentHandler>();
+var readEnvironmentHandler = scope.ServiceProvider.GetRequiredService<IReadEnvironmentHandler>();
 
 // Map endpoints and pass the handlers.
 app.MapCreateAccountEndpoints(createAccountHandler);
 app.MapAuthenticateAccountEndpoints(authenticateAccountHandler);
 app.MapCreateEnvironmentEndpoints(createEnvironmentHandler);
+app.MapReadEnvironmentEndpoints(readEnvironmentHandler);
 
 app.Run();

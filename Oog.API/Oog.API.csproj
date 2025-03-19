@@ -15,7 +15,7 @@
       <Folder Include="v1\Application\UpdateApplication\" />
       <Folder Include="v1\Environment\CreateEnvironment\Exceptions\" />
       <Folder Include="v1\Environment\DeleteEnvironment\" />
-      <Folder Include="v1\Environment\ReadEnvironment\" />
+      <Folder Include="v1\Environment\ReadEnvironment\CreateEnvironment\Exceptions\" />
       <Folder Include="v1\Environment\UpdateEnvironment\" />
       <Folder Include="v1\Log\CreateLog\" />
       <Folder Include="v1\Log\DeleteLog\" />

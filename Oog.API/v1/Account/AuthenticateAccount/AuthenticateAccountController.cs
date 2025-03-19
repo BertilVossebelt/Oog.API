@@ -2,7 +2,6 @@
 using API.v1.Account.AuthenticateAccount.Exceptions;
 using API.v1.Account.AuthenticateAccount.Interfaces;
 using API.v1.Account.AuthenticateAccount.Requests;
-using Microsoft.Net.Http.Headers;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace API.v1.Account.AuthenticateAccount;
@@ -24,7 +23,6 @@ public static class ReadAccountEndpoints
     {
         try
         {
-            Console.WriteLine("asdasdasdasd");
             // Get jwt secret from configuration.
             var jwtSecret = configuration.GetSection("JwtSettings:Secret").Value;
             if (string.IsNullOrEmpty(jwtSecret))
@@ -50,9 +48,6 @@ public static class ReadAccountEndpoints
             // Set the JWT token in a cookie.
             httpContext.Response.Cookies.Append("access_token", accessToken, cookieOptions);
 
-            Console.WriteLine("User authenticated");
-            Console.WriteLine("User authenticated");
-            Console.WriteLine("User authenticated");
             var successMessage = new { message = "You are successfully authenticated" };
             return Results.Json(successMessage, statusCode: StatusCodes.Status200OK);
         }

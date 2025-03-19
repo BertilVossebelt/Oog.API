@@ -28,7 +28,7 @@ public static class CreateEnvironmentController
             }
 
             var environmentDto = await _createEnvironmentHandler.Create(request, accountId);
-            
+
             return Results.Ok(environmentDto);
         }
         catch (Exception e)
