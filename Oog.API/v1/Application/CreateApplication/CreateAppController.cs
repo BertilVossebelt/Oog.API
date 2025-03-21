@@ -1,9 +1,9 @@
 ﻿using API.Common.Middlewares;
 using API.v1.Account.CreateAccount.Exceptions;
-using API.v1.Account.CreateAccount.Interfaces;
 using API.v1.Account.CreateAccount.Requests;
 using API.v1.Application.CreateApplication.Interfaces;
 using API.v1.Application.CreateApplication.Requests;
+using AutoMapper;
 
 namespace API.v1.Application.CreateApplication;
 
@@ -16,23 +16,29 @@ public static class CreateAppController
         _handler = handler;
         
         app.MapPost("api/v1/application/create", Create)
-            .AddEndpointFilter<ValidationFilter<CreateAccountRequest>>()
+            .AddEndpointFilter<ValidationFilter<CreateAppRequest>>()
             .WithTags("Accounts"); 
             
         return app;
     }
 
-    private static async Task<IResult> Create(CreateAppRequest request)
+    private static async Task<IResult> Create(CreateAppRequest request, IMapper mapper)
     {
         try
         {
-            var createdAccount = await _handler.Create(request);
+            var createdAccount = await _handler.Create(request, mapper);
             return Results.Ok(createdAccount);
         }
         catch (UsernameAlreadyExistsException e)
         {
             var message = new { message = e.Message };
             return Results.Json(message, statusCode: StatusCodes.Status409Conflict);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            var message = new { message = "Something unexpected happend" };
+            return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
     }
 }
