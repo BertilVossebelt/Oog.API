@@ -31,8 +31,9 @@ public static class CreateEnvironmentController
 
             return Results.Ok(environmentDto);
         }
-        catch (Exception)
-        {
+        catch (Exception e)
+        { 
+            Console.WriteLine(e.Message);
             var message = new { message = "Something unexpected happend" };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }

@@ -5,5 +5,5 @@ namespace API.v1.Environment.CreateEnvironment.Interfaces;
 
 public interface ICreateEnvironmentHandler
 {
-    public Task<EnvironmentDto?> Create(CreateEnvironmentRequest request, long ownerId);
+    public Task<EnvironmentDto?> Create(CreateEnvironmentRequest request, long accountId);
 }

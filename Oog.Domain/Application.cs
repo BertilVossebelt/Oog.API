@@ -1,9 +1,8 @@
 ﻿namespace Oog.Domain;
 
-public class Application
+public class Application(string name, string passKey)
 {
     public long Id { get; set; }
-    public long EnvironmentId { get; set; }
-    public string Name { get; set; }
-    public string PassKey { get; set; }
+    public string Name { get; set; } = name;
+    public string PassKey { get; set; } = passKey;
 }

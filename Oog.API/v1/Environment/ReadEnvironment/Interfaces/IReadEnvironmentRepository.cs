@@ -4,5 +4,5 @@ namespace API.v1.Environment.ReadEnvironment.Interfaces;
 
 public interface IReadEnvironmentRepository
 {
-    public Task<IEnumerable<EnvironmentDto>> Read(long ownerId);
+    public Task<IEnumerable<EnvironmentDto>> Read(long accountId);
 }

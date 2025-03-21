@@ -56,7 +56,7 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
     {
         const string insertEnvAccountQuery = """
                                              INSERT INTO env_account (account_id, env_id, owner)
-                                             VALUES (@OwnerId, @EnvId, @Owner)
+                                             VALUES (@AccountId, @EnvId, @Owner)
                                              RETURNING *
                                              """;
         return await connection.QueryFirstOrDefaultAsync<EnvAccount>(insertEnvAccountQuery, envAccount, transaction);

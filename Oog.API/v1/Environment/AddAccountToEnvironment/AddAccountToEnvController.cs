@@ -1,8 +1,7 @@
 ﻿using API.Common.Middlewares;
+using API.v1.Environment.AddAccountToEnvironment.Exceptions;
 using API.v1.Environment.AddAccountToEnvironment.Interfaces;
 using API.v1.Environment.AddAccountToEnvironment.Requests;
-using API.v1.Environment.CreateEnvironment.Interfaces;
-using API.v1.Environment.CreateEnvironment.Requests;
 
 namespace API.v1.Environment.AddAccountToEnvironment;
 
@@ -32,6 +31,14 @@ public static class AddAccountToEnvController
             var envAccount = await _addAccountToEnvHandler.AddAccountToEnv(request, accountId);
 
             return Results.Ok(envAccount);
+        }
+        catch (EnvNotFoundException e)
+        {
+            return Results.Json(e.Message, statusCode: StatusCodes.Status404NotFound);
+        }
+        catch (IncorrectUsernameException e)
+        {
+            return Results.Json(e.Message, statusCode: StatusCodes.Status400BadRequest);
         }
         catch (Exception e)
         {

@@ -9,10 +9,10 @@ using Oog.Domain;
 
 public class CreateEnvironmentHandler(ICreateEnvironmentRepository createEnvironmentRepository, IMapper mapper) : ICreateEnvironmentHandler
 {
-    public async Task<EnvironmentDto?> Create(CreateEnvironmentRequest request, long ownerId)
+    public async Task<EnvironmentDto?> Create(CreateEnvironmentRequest request, long accountId)
     {
         var env = new Environment { Name = request.Name };
-        var envAccount = new EnvAccount { OwnerId = ownerId, EnvId = env.Id, Owner = true };
+        var envAccount = new EnvAccount { AccountId = accountId, EnvId = env.Id, Owner = true };
         var (createdEnv, createdEnvAccount) = await createEnvironmentRepository.Create(env, envAccount);
         
         if (createdEnv == null) throw new Exception("Failed to create environment");

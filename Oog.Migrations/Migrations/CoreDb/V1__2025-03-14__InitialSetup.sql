@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS public.env_account (
     account_id INT REFERENCES public.account(id) ON DELETE CASCADE,
     env_id INT REFERENCES public.env(id) ON DELETE CASCADE,
     owner BOOLEAN DEFAULT FALSE,
+    maintainer BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (account_id, env_id)
 );
 

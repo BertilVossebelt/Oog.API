@@ -1,9 +1,10 @@
-﻿using API.v1.Environment.AddAccountToEnvironment.Requests;
+﻿namespace API.v1.Environment.AddAccountToEnvironment.Interfaces;
+
 using Oog.Domain;
-
-namespace API.v1.Environment.AddAccountToEnvironment.Interfaces;
-
 public interface IAddAccountToEnvRepository
 {
-    public Task<EnvAccount?> AddAccountToEnv(AddAccountToEnvRequest request, EnvAccount envAccount);
+    public Task<EnvAccount?> AddAccountToEnv(EnvAccount envAccount);
+    public Task<Account?> GetAccountIdFromUsername(string username);
+    public Task<EnvAccount?> GetEnvOwnerId(long envId);
+
 }

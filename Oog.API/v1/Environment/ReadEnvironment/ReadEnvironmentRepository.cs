@@ -15,9 +15,9 @@ public class ReadEnvironmentRepository(CoreDbConnection coreDbConnection) : IRea
                              SELECT env.name, env.id, env_account.account_id AS OwnerId
                              FROM env_account 
                              JOIN env ON env_account.env_id = env.id 
-                             WHERE account_id = @account_id
+                             WHERE account_id = @AccountId
                              """;
         
-        return await connection.QueryAsync<EnvironmentDto>(query, new { account_id = accountId });
+        return await connection.QueryAsync<EnvironmentDto>(query, new { AccountId = accountId });
     }
 }
