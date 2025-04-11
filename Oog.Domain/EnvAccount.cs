@@ -2,7 +2,7 @@
 
 public class EnvAccount
 {
-    public required long EnvId { get; set; }
-    public required long AccountId { get; set; }
+    public required int EnvId { get; set; }
+    public required int AccountId { get; set; }
     public required bool Owner {  get; set; }
 }

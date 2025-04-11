@@ -2,7 +2,7 @@
 
 public class Application(string name, string passKey)
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = name;
     public string PassKey { get; set; } = passKey;
 }

@@ -52,10 +52,3 @@ CREATE TABLE IF NOT EXISTS public.tag (
     env_id INT REFERENCES public.env(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL
 );
-
--- Role_Tag table (many-to-many relationship)
-CREATE TABLE IF NOT EXISTS public.role_tag (
-    role_id INT REFERENCES public.role(id) ON DELETE CASCADE,
-    tag_id INT REFERENCES public.tag(id) ON DELETE CASCADE,
-    PRIMARY KEY (role_id, tag_id)
-);

@@ -1,6 +1,20 @@
-﻿using Oog.Migrations;
+﻿using ClickHouse.Ado;
+using Oog.Migrations;
 
-// Check if the first argument is "migrations".
+try
+{
+    using var conn = new ClickHouseConnection(AppSettings.LogDbConnectionString);
+    conn.Open();
+    var cmd = conn.CreateCommand("SELECT 1");
+    var result = cmd.ExecuteScalar();
+    Console.WriteLine($"ClickHouse result: {result}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Failed to connect: " + ex);
+}
+
+// Check if the first argument is "migrate".
 if (args.Length >= 2 && args[0].ToLower() == "migrate")
 {
     switch (args[1].ToLower())

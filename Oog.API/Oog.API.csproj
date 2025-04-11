@@ -9,24 +9,6 @@
 
     <ItemGroup>
       <Folder Include="Common\Services\" />
-      <Folder Include="v1\Account\ReadAccount\" />
-      <Folder Include="v1\Application\DeleteApplication\" />
-      <Folder Include="v1\Application\ReadApplication\" />
-      <Folder Include="v1\Application\UpdateApplication\" />
-      <Folder Include="v1\Environment\CreateEnvironment\Exceptions\" />
-      <Folder Include="v1\Environment\DeleteEnvironment\" />
-      <Folder Include="v1\Environment\ReadEnvironment\Exceptions\" />
-      <Folder Include="v1\Environment\UpdateEnvironment\" />
-      <Folder Include="v1\Log\CreateLog\" />
-      <Folder Include="v1\Log\DeleteLog\" />
-      <Folder Include="v1\Log\ReadLog\" />
-      <Folder Include="v1\Log\UpdateLog\" />
-      <Folder Include="v1\Account\DeleteAccount\" />
-      <Folder Include="v1\Account\UpdateAccount\" />
-      <Folder Include="v1\Tag\CrreateTag\" />
-      <Folder Include="v1\Tag\DeleteTag\" />
-      <Folder Include="v1\Tag\ReadTag\" />
-      <Folder Include="v1\Tag\UpdateTag\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,9 +18,9 @@
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="14.0.0" />
       <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-      <PackageReference Include="ClickHouse.Ado" Version="2.0.5" />
       <PackageReference Include="Dapper" Version="2.1.66" />
       <PackageReference Include="Npgsql" Version="9.0.3" />
+      <PackageReference Include="Octonica.ClickHouseClient" Version="3.1.3" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />

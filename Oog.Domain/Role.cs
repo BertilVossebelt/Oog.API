@@ -1,8 +1,8 @@
 ﻿namespace Oog.Domain;
 
-public class Role(string name)
+public class Role
 {
-    public uint Id { get; set; }
-    public uint EnvironmentId { get; set; }
-    public string Name { get; set; } = name;
+    public int Id { get; set; }
+    public int EnvId { get; set; }
+    public required string Name { get; set; }
 }

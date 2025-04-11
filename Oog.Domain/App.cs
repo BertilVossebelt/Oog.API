@@ -2,8 +2,8 @@
 
 public class App
 {
-    public long Id { get; set; }
-    public required long EnvId { get; set; }
+    public int Id { get; set; }
+    public required int EnvId { get; set; }
     public required string Name { get; set; }
     public required string Passkey { get; set; }
 }
