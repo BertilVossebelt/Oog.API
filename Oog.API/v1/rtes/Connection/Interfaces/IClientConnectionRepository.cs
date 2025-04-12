@@ -4,5 +4,5 @@ namespace API.v1.rtes.Connection.Interfaces;
 
 public interface IClientConnectionRepository
 {
-    public Task<IEnumerable<Role>> GetRolesFromAccountId(int accountId);
+    public Task<IEnumerable<string>> GetRolesFromAccountId(int accountId, int envId);
 }

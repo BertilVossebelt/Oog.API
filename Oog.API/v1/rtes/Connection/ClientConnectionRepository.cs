@@ -7,19 +7,20 @@ namespace API.v1.rtes.Connection;
 
 public class ClientConnectionRepository(CoreDbConnection coreDbConnection) : IClientConnectionRepository
 {
-    public async Task<IEnumerable<Role>> GetRolesFromAccountId(int accountId)
+    public async Task<IEnumerable<string>> GetRolesFromAccountId(int accountId, int envId)
     {
         await using var connection = coreDbConnection.Connect();
         
         const string query = """
-                             SELECT r.name, r.env_id 
+                             SELECT r.name 
                              FROM role r
                              JOIN account_role ar
                              ON ar.role_id = r.id
-                             WHERE ar.account_id = @accountId;
+                             WHERE ar.account_id = @accountId
+                             AND ar.role_id = @envId;
                              """;
         
-        var parameters = new { accountId };
-        return await connection.QueryAsync<Role>(query, parameters);
+        var parameters = new { accountId, envId };
+        return await connection.QueryAsync<string>(query, parameters);
     }
 }

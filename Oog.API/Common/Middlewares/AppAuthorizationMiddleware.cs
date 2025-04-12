@@ -22,7 +22,6 @@ public class AppAuthorizationMiddleware(RequestDelegate? next)
         
         if (string.IsNullOrEmpty(applicationToken))
         {
-            Console.WriteLine("HAHASDKALKSDHJlaksjhdkashflhsahlasfhlsakufkl sdWHYNTKACYWEKLY");
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Response.ContentType = "application/json";
             var message = new { message = "Application token is missing from request" };
@@ -46,7 +45,7 @@ public class AppAuthorizationMiddleware(RequestDelegate? next)
 
             // Attach the app id and name to the HttpContext for easy access.
             var jwtToken = (JwtSecurityToken)validatedToken;
-            context.Items["AppId"] = Convert.ToInt64(jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value);
+            context.Items["AppId"] = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value);
             context.Items["Name"] = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;
             context.Items["UserType"] = "App";
             

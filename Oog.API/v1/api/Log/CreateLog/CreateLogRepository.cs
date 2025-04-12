@@ -21,7 +21,7 @@ public class CreateLogRepository(CoreDbConnection coreDbConnection, LogDbConnect
                              """;
         
         var queryResult = await connection.ExecuteAsync(query, log);
-        
+
         await logHub.SendLogToAll(log);
         
         return queryResult;

@@ -25,16 +25,18 @@ using API.v1.rtes.Hubs.Log;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
 // Add database connections.
 builder.Services.AddScoped<CoreDbConnection>();
 builder.Services.AddScoped<LogDbConnection>();
 
+// SignalR connection management.
+builder.Services.AddSingleton<IClientConnectionHandler, ClientConnectionHandler>();
+builder.Services.AddSingleton<IClientConnectionRepository, ClientConnectionRepository>();
+
 // Register SignalR hubs.
 builder.Services.AddScoped<LogHub>();
-
-// SignalR connection management.
-builder.Services.AddScoped<IClientConnectionHandler, ClientConnectionHandler>();
-builder.Services.AddScoped<IClientConnectionRepository, ClientConnectionRepository>();
 
 // Register repositories and handlers.
 builder.Services.AddScoped<ICreateAccountHandler, CreateAccountHandler>();

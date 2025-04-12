@@ -1,7 +1,12 @@
-﻿namespace API.v1.rtes.Connection.Interfaces;
+﻿using Oog.Domain;
+
+namespace API.v1.rtes.Connection.Interfaces;
 
 public interface IClientConnectionHandler
 {
-    public void AddClient(int accountId);
-    public void RemoveClient(int accountId);
+    public Dictionary<int, Dictionary<int, List<string>>?> permissions { get; set; }
+    public Dictionary<int, Dictionary<int, List<string>>> clientConnections { get; set; }
+
+    public void AddConnection(int accountId, string connectionId, int envId);
+    public void RemoveConnection(int accountId);
 }
