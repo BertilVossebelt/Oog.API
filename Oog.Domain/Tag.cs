@@ -1,10 +1,8 @@
 ﻿namespace Oog.Domain;
 
-public class Tag
+public class Tag(string name)
 {
-    public uint Id { get; set; }
-    public uint EnvironmentId { get; set; }
-    public string Name { get; set; }
-
-    List<Role>? Roles { get; set; }
+    public int Id { get; set; }
+    public int EnvId { get; set; }
+    public string Name { get; set; } = name;
 }

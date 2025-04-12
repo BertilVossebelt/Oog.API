@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using ClickHouse.Ado;
+using Octonica.ClickHouseClient;
 
 namespace API.Common.Databases;
 
@@ -7,9 +7,10 @@ public class LogDbConnection(IConfiguration configuration)
 {
     private readonly string? _connectionString = configuration.GetConnectionString("LogDb");
 
-    public IDbConnection Connect()
+    public async Task<ClickHouseConnection> Connect()
     {
-        var connectionSettings = new ClickHouseConnectionSettings(_connectionString);
-        return new ClickHouseConnection(connectionSettings);
+        var connection = new ClickHouseConnection(_connectionString);
+        await connection.OpenAsync();
+        return connection;    
     }
 }

@@ -20,7 +20,7 @@ public class EnvironmentProfile : Profile
         CreateMap<EnvAccount, EnvironmentDto>()
             .ForMember(
                 dest => dest.OwnerId,
-                opt => opt.MapFrom(src => src.OwnerId));
+                opt => opt.MapFrom(src => src.AccountId));
     }
 }
 

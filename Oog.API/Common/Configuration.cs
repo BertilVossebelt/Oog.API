@@ -11,50 +11,59 @@ public static class Configuration
             .AddSwaggerGen()
             .AddCors(options =>
                 options.AddPolicy("_myAllowSpecificOrigins",
-                    builder =>
+                    corsPolicyBuilder =>
                     {
-                        builder.WithOrigins("http://localhost:5217", "http://localhost:5005", "https://localhost:7287")
+                        corsPolicyBuilder.WithOrigins("https://localhost:5050")
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     }
                 )
             )
-            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddSignalR();
     }
 
-    public static void RegisterMiddlewares(this WebApplication app, IConfiguration configuration)
+    public static void RegisterMiddlewares(this WebApplication app)
     {
+        // Register middlewares for development only.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger().UseSwaggerUI();
         }
-
-        app.UseHttpsRedirection();
-        app.UseCors("_myAllowSpecificOrigins");
-
-        var jwtSecret = configuration.GetSection("JwtSettings:Secret").Value;
-
-        // Register middlewares that obfuscate exceptions and errors for production only.
-        if (!app.Environment.IsDevelopment())
-        {
+        
+        // Register middlewares for production only.
+        if (app.Environment.IsProduction())
+        {            
+            app.UseHttpsRedirection();
+            app.UseHsts();
             app.ExceptionMiddleware();
             app.HttpRequestExceptionMiddleware();
             app.InvalidDataExceptionMiddleware();
         }
 
+        // Register middlewares that are used in both development and production.
+        app.UseCors("_myAllowSpecificOrigins");
+        
         app.UseWhen(context =>
-                // Register routes that do not require authorization.
+                // Register routes that do not require user authorization.
                 !context.Request.Path.StartsWithSegments("/") &&
                 !context.Request.Path.StartsWithSegments("/swagger") &&
+                !context.Request.Path.StartsWithSegments("/api/v1/log/create") &&
                 !context.Request.Path.StartsWithSegments("/api/v1/account/create") &&
-                !context.Request.Path.StartsWithSegments("/api/v1/account/authenticate"),
-
-                // Require authentication for everything else.
-            appBuilder => { appBuilder.UseMiddleware<AuthorizationMiddleware>(); }
+                !context.Request.Path.StartsWithSegments("/api/v1/account/authenticate") &&
+                !context.Request.Path.StartsWithSegments("/api/v1/application/authenticate"),
+            
+            // Require authentication for everything else.
+            appBuilder => { appBuilder.UseMiddleware<AccountAuthorizationMiddleware>(); }
         );
         
-        // Register all other middlewares.
-        
+        app.UseWhen(context =>
+                // Register routes that require application authorization.
+                context.Request.Path.StartsWithSegments("/api/v1/log/create"),
+
+                // Require authentication for everything else.
+            appBuilder => { appBuilder.UseMiddleware<AppAuthorizationMiddleware>(); }
+        );
     }
 }

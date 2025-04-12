@@ -2,10 +2,7 @@
 
 public class Role
 {
-    public uint Id { get; set; }
-    public uint EnvironmentId { get; set; }
-    public string Name { get; set; }
-    
-    List<Tag>? Tags { get; set; }
-    List<Account>? Accounts { get; set; }
+    public int Id { get; set; }
+    public int EnvId { get; set; }
+    public required string Name { get; set; }
 }

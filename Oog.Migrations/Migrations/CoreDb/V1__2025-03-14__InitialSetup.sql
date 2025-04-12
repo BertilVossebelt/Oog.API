@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS public.env_account (
     account_id INT REFERENCES public.account(id) ON DELETE CASCADE,
     env_id INT REFERENCES public.env(id) ON DELETE CASCADE,
     owner BOOLEAN DEFAULT FALSE,
+    maintainer BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (account_id, env_id)
 );
 
@@ -50,11 +51,4 @@ CREATE TABLE IF NOT EXISTS public.tag (
     id SERIAL PRIMARY KEY,
     env_id INT REFERENCES public.env(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL
-);
-
--- Role_Tag table (many-to-many relationship)
-CREATE TABLE IF NOT EXISTS public.role_tag (
-    role_id INT REFERENCES public.role(id) ON DELETE CASCADE,
-    tag_id INT REFERENCES public.tag(id) ON DELETE CASCADE,
-    PRIMARY KEY (role_id, tag_id)
 );
