@@ -13,7 +13,7 @@ public abstract class BaseHub(IClientConnectionHandler handler) : Hub
         var envIdString = Context.GetHttpContext()?.Request.Query["envId"];
         if (httpContext?.Items["AccountId"] is int accountId && int.TryParse(envIdString, out var envId))
         {
-            Handler.AddConnection(accountId, Context.ConnectionId, envId);
+            await Handler.AddConnectionDataAsync(accountId, Context.ConnectionId, envId);
         }
 
         await base.OnConnectedAsync();

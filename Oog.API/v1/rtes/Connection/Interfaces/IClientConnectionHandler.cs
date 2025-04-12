@@ -7,6 +7,6 @@ public interface IClientConnectionHandler
     public Dictionary<int, Dictionary<int, List<string>>?> permissions { get; set; }
     public Dictionary<int, Dictionary<int, List<string>>> clientConnections { get; set; }
 
-    public void AddConnection(int accountId, string connectionId, int envId);
+    public Task AddConnectionDataAsync(int accountId, string connectionId, int envId);
     public void RemoveConnection(int accountId);
 }

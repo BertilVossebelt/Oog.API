@@ -11,13 +11,21 @@ public class LogHub(IClientConnectionHandler handler, IHubContext<LogHub> hubCon
     public async Task SendLogToAll(Log log)
     {
         if (!Handler.clientConnections.TryGetValue(log.EnvId, out var clients)) return;
+        if (!Handler.permissions.TryGetValue(log.EnvId, out var permissions)) return;
 
+        var sendTasks = new List<Task>();
         foreach (var client in clients)
         {
+            if (!permissions!.TryGetValue(client.Key, out var roles)) continue;
+            var shouldReceive = log.Roles.Count == 0 || log.Roles.Intersect(roles).Any();
+            if (!shouldReceive) continue;
+            
             foreach (var connectionId in client.Value)
             {
-                await hubContext.Clients.Client(connectionId).SendAsync("ReceiveLog", log);
+                sendTasks.Add(hubContext.Clients.Client(connectionId).SendAsync("ReceiveLog", log));
             }
         }
+
+        await Task.WhenAll(sendTasks);
     }
 }

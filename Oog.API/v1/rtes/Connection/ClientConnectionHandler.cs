@@ -9,34 +9,37 @@ public class ClientConnectionHandler(IClientConnectionRepository repository) : I
     public Dictionary<int, Dictionary<int, List<string>>?> permissions { get; set; } = new();
     public Dictionary<int, Dictionary<int, List<string>>?> clientConnections { get; set; } = new();
 
-    public void AddConnection(int accountId, string connectionId, int envId)
+    public async Task AddConnectionDataAsync(int accountId, string connectionId, int envId)
     {
-        if (permissions.ContainsKey(envId) && permissions[envId]!.ContainsKey(accountId)) return;
-        if (clientConnections.ContainsKey(envId) && clientConnections[envId]![accountId].Contains(connectionId)) return;
-
-        // Create new connection id list or grab existing one if it exists.
-        var connections = new List<string>();
-        if (clientConnections.TryGetValue(envId, out var envConnections) && 
-            envConnections.TryGetValue(accountId, out var connectionList))
-        {
-            connections = connectionList.ToList();
-        }
-        
-        // Add connection list to clientConnections.
-        connections.TryAdd(connectionId);
-        var connectionsMap = new Dictionary<int, List<string>> { { accountId, connections } };
-        clientConnections.TryAdd(envId, connectionsMap);
-
-        // Query roles from account.
-        var roles = repository.GetRolesFromAccountId(accountId, envId).Result.ToList();
-
-        // Add roles data to permissions.
-        var rolesMap = new Dictionary<int, List<string>> { { accountId, roles } };
-        permissions.TryAdd(envId, rolesMap);
+        AddClientConnections(envId, connectionId, accountId);
+        await AddPermissionsAsync(envId, accountId);
     }
 
     public void RemoveConnection(int accountId)
     {
         permissions.Remove(accountId);
+    }
+
+    private void AddClientConnections(int envId, string connectionId, int accountId)
+    {
+        // Ensure clientConnections[envId][accountId] is properly initialized.
+        if (!clientConnections.ContainsKey(envId)) clientConnections[envId] = new Dictionary<int, List<string>>();
+        if (!clientConnections[envId]!.ContainsKey(accountId)) clientConnections[envId]![accountId] = new List<string>();
+        
+        // Exit if connectionId is already present.
+        if (clientConnections[envId]![accountId].Contains(connectionId)) return;
+
+        // Add the new connection for this accountId.
+        clientConnections[envId]![accountId].Add(connectionId);
+    }
+    
+    private async Task AddPermissionsAsync(int envId, int accountId)
+    {
+        // Ensure permissions[envId] is initialized.
+        if (!permissions.ContainsKey(envId)) permissions[envId] = new Dictionary<int, List<string>>();
+        
+        // Fetch and add roles.
+        var roles = await repository.GetRoles(accountId, envId);
+        permissions[envId]![accountId] = roles.ToList();
     }
 }
