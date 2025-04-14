@@ -18,6 +18,8 @@ using API.v1.api.Environment.ReadEnvironment;
 using API.v1.api.Environment.ReadEnvironment.Interfaces;
 using API.v1.api.Log.CreateLog;
 using API.v1.api.Log.CreateLog.Interfaces;
+using API.v1.api.Role.CreateRole;
+using API.v1.api.Role.CreateRole.Interfaces;
 using API.v1.rtes;
 using API.v1.rtes.Connection;
 using API.v1.rtes.Connection.Interfaces;
@@ -65,6 +67,9 @@ builder.Services.AddScoped<IAuthenticateAppRepository, AuthenticateAppRepository
 builder.Services.AddScoped<ICreateLogHandler, CreateLogHandler>();
 builder.Services.AddScoped<ICreateLogRepository, CreateLogRepository>();
 
+builder.Services.AddScoped<ICreateRoleHandler, CreateRoleHandler>();
+builder.Services.AddScoped<ICreateRoleRepository, CreateRoleRepository>();
+
 builder.RegisterServices();
 
 var app = builder.Build();
@@ -82,6 +87,7 @@ var addAccountToEnvHandler = scope.ServiceProvider.GetRequiredService<IAddAccoun
 var getAccountsFromEnvHandler = scope.ServiceProvider.GetRequiredService<IGetAccountsFromEnvHandler>();
 var createAppHandler = scope.ServiceProvider.GetRequiredService<ICreateAppHandler>();
 var createLogHandler = scope.ServiceProvider.GetRequiredService<ICreateLogHandler>();
+var createRoleHandler = scope.ServiceProvider.GetRequiredService<ICreateRoleHandler>();
 
 // Get repositories from DI container.
 var readEnvironmentRepository = scope.ServiceProvider.GetRequiredService<IReadEnvironmentRepository>();
@@ -96,6 +102,7 @@ app.MapGetAccountsFromEnvController(getAccountsFromEnvHandler);
 app.MapCreateAppEndpoints(createAppHandler);
 app.MapAuthenticateAppEndpoints(authenticateAppHandler);
 app.MapCreateLogEndpoints(createLogHandler);
+app.MapCreateRoleEndpoints(createRoleHandler);
 
 // Map SignalR hubs.
 app.MapHub<LogHub>("/rtes/v1/log");

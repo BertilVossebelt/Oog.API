@@ -13,7 +13,7 @@ public class AppAuthorizationMiddleware(RequestDelegate? next)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Response.ContentType = "application/json";
-            var message = new { message = "Something unexpected happend" };
+            var message = new { message = "Something unexpected happend." };
             await context.Response.WriteAsJsonAsync(message);
             return;
         }
@@ -24,7 +24,7 @@ public class AppAuthorizationMiddleware(RequestDelegate? next)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Response.ContentType = "application/json";
-            var message = new { message = "Application token is missing from request" };
+            var message = new { message = "Application token is missing from request." };
             await context.Response.WriteAsJsonAsync(message);
             return;
         }

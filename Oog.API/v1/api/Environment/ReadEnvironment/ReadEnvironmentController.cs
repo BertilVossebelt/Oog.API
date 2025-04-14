@@ -20,7 +20,7 @@ public static class ReadEnvironmentController
         {
             if (httpContext.Items["AccountId"] is not int accountId)
             {
-                var message = new { message = "Something unexpected happend" };
+                var message = new { message = "Something unexpected happend." };
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
@@ -30,7 +30,7 @@ public static class ReadEnvironmentController
         }
         catch (Exception)
         {
-            var message = new { message = "Something unexpected happend" };
+            var message = new { message = "Something unexpected happend." };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
     }

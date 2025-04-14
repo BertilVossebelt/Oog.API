@@ -1,24 +1,26 @@
 ﻿using API.Common.Middlewares;
-using API.v1.api.Environment.AddAccountToEnvironment.Exceptions;
 using API.v1.api.Environment.AddAccountToEnvironment.Interfaces;
 using API.v1.api.Environment.AddAccountToEnvironment.Requests;
+using API.v1.api.Role.CreateRole.Exceptions;
+using API.v1.api.Role.CreateRole.Interfaces;
+using API.v1.api.Role.CreateRole.Requests;
 
-namespace API.v1.api.Environment.AddAccountToEnvironment;
+namespace API.v1.api.Role.CreateRole;
 
-public static class AddAccountToEnvController
+public static class CreateRoleController
 {
-    private static IAddAccountToEnvHandler _handler = null!;
+    private static ICreateRoleHandler _handler = null!;
     
-    public static void MapAddAccountToEnvEndpoints(this WebApplication app, IAddAccountToEnvHandler handler)
+    public static void MapCreateRoleEndpoints(this WebApplication app, ICreateRoleHandler handler)
     {
         _handler = handler;
         
-        app.MapPost("api/v1/environment/add/account", Create)
-            .AddEndpointFilter<ValidationFilter<AddAccountToEnvRequest>>()
-            .WithTags("Customer environments");
+        app.MapPost("/api/v1/role/create", Create)
+            .AddEndpointFilter<ValidationFilter<CreateRoleRequest>>()
+            .WithTags("Roles");
     }
 
-    private static async Task<IResult> Create(AddAccountToEnvRequest request, HttpContext httpContext)
+    private static async Task<IResult> Create(CreateRoleRequest request, HttpContext httpContext)
     {
         try
         {
@@ -28,15 +30,15 @@ public static class AddAccountToEnvController
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
-            var envAccount = await _handler.AddAccountToEnv(request, accountId);
+            var envAccount = await _handler.Create(request, accountId);
 
             return Results.Ok(envAccount);
         }
-        catch (EnvNotFoundException e)
+        catch (NoAppropriateRoleFoundException e)
         {
             return Results.Json(e.Message, statusCode: StatusCodes.Status404NotFound);
         }
-        catch (IncorrectUsernameException e)
+        catch (RoleWasNotCreatedException e)
         {
             return Results.Json(e.Message, statusCode: StatusCodes.Status400BadRequest);
         }
