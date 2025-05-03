@@ -1,5 +1,6 @@
 ﻿using API.Common.DTOs;
-using API.v1.Account.CreateAccount.Requests;
+using API.v1.api.Account.AddRoleToAccount.Requests;
+using API.v1.api.Account.CreateAccount.Requests;
 
 namespace API.v1.api.Account.CreateAccount.Interfaces;
 

@@ -1,24 +1,21 @@
-﻿using API.Common.Middlewares;
-using API.v1.api.Role.CreateRole.Exceptions;
-using API.v1.api.Role.CreateRole.Interfaces;
-using API.v1.api.Role.CreateRole.Requests;
+﻿using API.v1.api.Role.CreateRole.Exceptions;
+using API.v1.api.Role.ReadRole.Interface;
 
-namespace API.v1.api.Role.CreateRole;
+namespace API.v1.api.Role.ReadRole;
 
-public static class CreateRoleController
+public static class ReadRoleController
 {
-    private static ICreateRoleHandler _handler = null!;
+    private static IReadRoleHandler _handler = null!;
     
-    public static void MapCreateRoleEndpoints(this WebApplication app, ICreateRoleHandler handler)
+    public static void MapReadRoleEndpoints(this WebApplication app, IReadRoleHandler handler)
     {
         _handler = handler;
         
-        app.MapPost("/api/v1/role/create", Create)
-            .AddEndpointFilter<ValidationFilter<CreateRoleRequest>>()
+        app.MapGet("api/v1/role/get/{envId}", Get)
             .WithTags("Roles");
     }
 
-    private static async Task<IResult> Create(CreateRoleRequest request, HttpContext httpContext)
+    private static async Task<IResult> Get(int envId, HttpContext httpContext)
     {
         try
         {
@@ -28,7 +25,7 @@ public static class CreateRoleController
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
-            var envAccount = await _handler.Create(request, accountId);
+            var envAccount = await _handler.Get(envId, accountId);
 
             return Results.Ok(envAccount);
         }

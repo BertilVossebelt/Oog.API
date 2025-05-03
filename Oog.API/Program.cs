@@ -1,7 +1,11 @@
 using API.Common;
 using API.Common.Databases;
+using API.v1.api.Account.AddRoleToAccount;
+using API.v1.api.Account.AddRoleToAccount.Interfaces;
 using API.v1.api.Account.CreateAccount;
 using API.v1.api.Account.CreateAccount.Interfaces;
+using API.v1.api.Account.ReadAccountRoles;
+using API.v1.api.Account.ReadAccountRoles.Interfaces;
 using API.v1.api.Application.CreateApplication;
 using API.v1.api.Application.CreateApplication.Interfaces;
 using API.v1.api.Authentication.AuthenticateAccount;
@@ -20,6 +24,8 @@ using API.v1.api.Log.CreateLog;
 using API.v1.api.Log.CreateLog.Interfaces;
 using API.v1.api.Role.CreateRole;
 using API.v1.api.Role.CreateRole.Interfaces;
+using API.v1.api.Role.ReadRole;
+using API.v1.api.Role.ReadRole.Interface;
 using API.v1.rtes;
 using API.v1.rtes.Connection;
 using API.v1.rtes.Connection.Interfaces;
@@ -34,8 +40,8 @@ builder.Services.AddScoped<CoreDbConnection>();
 builder.Services.AddScoped<LogDbConnection>();
 
 // SignalR connection management.
-builder.Services.AddSingleton<IClientConnectionHandler, ClientConnectionHandler>();
-builder.Services.AddSingleton<IClientConnectionRepository, ClientConnectionRepository>();
+builder.Services.AddScoped<IClientConnectionHandler, ClientConnectionHandler>();
+builder.Services.AddScoped<IClientConnectionRepository, ClientConnectionRepository>();
 
 // Register SignalR hubs.
 builder.Services.AddScoped<LogHub>();
@@ -70,6 +76,15 @@ builder.Services.AddScoped<ICreateLogRepository, CreateLogRepository>();
 builder.Services.AddScoped<ICreateRoleHandler, CreateRoleHandler>();
 builder.Services.AddScoped<ICreateRoleRepository, CreateRoleRepository>();
 
+builder.Services.AddScoped<IReadRoleHandler, ReadRoleHandler>();
+builder.Services.AddScoped<IReadRoleRepository, ReadRoleRepository>();
+
+builder.Services.AddScoped<IAddRoleToAccountHandler, AddRoleToAccountHandler>();
+builder.Services.AddScoped<IAddRoleToAccountRepository, AddRoleToAccountRepository>();
+
+builder.Services.AddScoped<IReadAccountRolesHandler, ReadAccountRolesHandler>();
+builder.Services.AddScoped<IReadAccountRolesRepository, ReadAccountRolesRepository>();
+
 builder.RegisterServices();
 
 var app = builder.Build();
@@ -78,7 +93,7 @@ app.RegisterMiddlewares();
 
 using var scope = app.Services.CreateScope();
 
-// Get handlers from DI container.
+// Get handlers from the DI container.
 var createAccountHandler = scope.ServiceProvider.GetRequiredService<ICreateAccountHandler>();
 var authenticateAccountHandler = scope.ServiceProvider.GetRequiredService<IAuthenticateAccountHandler>();
 var authenticateAppHandler = scope.ServiceProvider.GetRequiredService<IAuthenticateAppHandler>();
@@ -88,6 +103,9 @@ var getAccountsFromEnvHandler = scope.ServiceProvider.GetRequiredService<IGetAcc
 var createAppHandler = scope.ServiceProvider.GetRequiredService<ICreateAppHandler>();
 var createLogHandler = scope.ServiceProvider.GetRequiredService<ICreateLogHandler>();
 var createRoleHandler = scope.ServiceProvider.GetRequiredService<ICreateRoleHandler>();
+var readRoleHandler = scope.ServiceProvider.GetRequiredService<IReadRoleHandler>();
+var addRoleToAccountHandler = scope.ServiceProvider.GetRequiredService<IAddRoleToAccountHandler>();
+var readAccountAccountRolesHandler = scope.ServiceProvider.GetRequiredService<IReadAccountRolesHandler>();
 
 // Get repositories from DI container.
 var readEnvironmentRepository = scope.ServiceProvider.GetRequiredService<IReadEnvironmentRepository>();
@@ -103,6 +121,9 @@ app.MapCreateAppEndpoints(createAppHandler);
 app.MapAuthenticateAppEndpoints(authenticateAppHandler);
 app.MapCreateLogEndpoints(createLogHandler);
 app.MapCreateRoleEndpoints(createRoleHandler);
+app.MapReadRoleEndpoints(readRoleHandler);
+app.MapAddRoleToAccountController(addRoleToAccountHandler);
+app.MapReadAccountRolesEndpoints(readAccountAccountRolesHandler);
 
 // Map SignalR hubs.
 app.MapHub<LogHub>("/rtes/v1/log");

@@ -4,5 +4,5 @@ using Oog.Domain;
 public interface ICreateRoleRepository
 {
     public Task<Role?> Create(Role role);
-    public Task<IEnumerable<string>> GetRoles(int accountId, int envId);
+    public Task<IEnumerable<string>> GetAccountRoles(int accountId, int envId);
 }

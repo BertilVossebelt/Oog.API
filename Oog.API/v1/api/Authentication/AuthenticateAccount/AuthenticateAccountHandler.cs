@@ -8,11 +8,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.v1.api.Authentication.AuthenticateAccount;
 
+using Oog.Domain;
 public class AuthenticateAccountHandler(IAuthenticateAccountRepository repository) : IAuthenticateAccountHandler
 {
     public async Task<string> Authenticate(AuthenticateAccountRequest request, string jwtSecret)
     {
-        Oog.Domain.Account? account = await repository.Authenticate(request);
+        Account? account = await repository.Authenticate(request);
         
         if (account == null || !BCrypt.Net.BCrypt.Verify(request.Password, account.Password))
         {

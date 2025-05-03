@@ -1,5 +1,4 @@
-﻿using System.Security.AccessControl;
-using API.v1.api.Role.CreateRole.Exceptions;
+﻿using API.v1.api.Role.CreateRole.Exceptions;
 using API.v1.api.Role.CreateRole.Interfaces;
 using API.v1.api.Role.CreateRole.Requests;
 
@@ -12,7 +11,7 @@ public class CreateRoleHandler(ICreateRoleRepository repository) : ICreateRoleHa
     public Task<Role> Create(CreateRoleRequest request, int accountId)
     {
         // Check if user is allowed to add a role to the environment.
-        var roles = repository.GetRoles(accountId, request.EnvId).Result;
+        var roles = repository.GetAccountRoles(accountId, request.EnvId).Result;
         if (!roles.Any(r => r is "Owner" or "Maintainer"))
         {
             throw new NoAppropriateRoleFoundException(

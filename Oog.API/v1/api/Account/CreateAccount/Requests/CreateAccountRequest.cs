@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace API.v1.Account.CreateAccount.Requests;
+namespace API.v1.api.Account.CreateAccount.Requests;
 
 [method: JsonConstructor]
 public class CreateAccountRequest(string username, string password, string confirmation)

@@ -1,7 +1,7 @@
 ﻿using API.Common.Middlewares;
-using API.v1.Account.CreateAccount.Requests;
 using API.v1.api.Account.CreateAccount.Exceptions;
 using API.v1.api.Account.CreateAccount.Interfaces;
+using API.v1.api.Account.CreateAccount.Requests;
 
 namespace API.v1.api.Account.CreateAccount;
 
@@ -25,7 +25,7 @@ public static class CreateAccountController
         try
         {
             var createdAccount = await _handler.Create(request);
-            return Results.Ok(createdAccount);
+            return Results.Ok(createdAccount); 
         }
         catch (UsernameAlreadyExistsException e)
         {

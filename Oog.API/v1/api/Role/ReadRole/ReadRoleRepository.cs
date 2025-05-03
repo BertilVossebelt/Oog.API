@@ -1,24 +1,25 @@
 ﻿using API.Common.Databases;
-using API.v1.api.Environment.AddAccountToEnvironment.Interfaces;
 using API.v1.api.Role.CreateRole.Interfaces;
+using API.v1.api.Role.ReadRole.Interface;
 using Dapper;
 
-namespace API.v1.api.Role.CreateRole;
+namespace API.v1.api.Role.ReadRole;
 
 using Oog.Domain;
-public class CreateRoleRepository(CoreDbConnection coreDbConnection) : ICreateRoleRepository
+public class ReadRoleRepository(CoreDbConnection coreDbConnection) : IReadRoleRepository
 {
-    public async Task<Role?> Create(Role role)
+    public async Task<IEnumerable<Role>> Get(int envId)
     {
         await using var connection = coreDbConnection.Connect();
 
         const string query = """
-                    INSERT INTO role (env_id, name) 
-                    VALUES (@EnvId, @Name)
-                    RETURNING *;
+                    SELECT *
+                    FROM role
+                    WHERE env_id = @envId
                     """;
 
-        return await connection.QueryFirstOrDefaultAsync<Role>(query, role);
+        var parameters = new { envId };
+        return await connection.QueryAsync<Role>(query, parameters);
     }
     
     public async Task<IEnumerable<string>> GetAccountRoles(int accountId, int envId)

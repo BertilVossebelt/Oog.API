@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Oog.Domain;
 using Oog.Domain.Enums;
 
 namespace API.v1.api.Log.CreateLog.Requests;
