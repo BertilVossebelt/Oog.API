@@ -47,7 +47,7 @@ builder.Services.AddScoped<IClientConnectionRepository, ClientConnectionReposito
 builder.Services.AddScoped<LogHub>();
 
 // Register repositories and handlers.
-builder.Services.AddScoped<ICreateAccountHandler, CreateAccountHandler>();
+builder.Services.AddScoped<ICreateAccountHandler, CreateAccount>();
 builder.Services.AddScoped<ICreateAccountRepository, CreateAccountRepository>();
 
 builder.Services.AddScoped<IAuthenticateAccountHandler, AuthenticateAccountHandler>();

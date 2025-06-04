@@ -8,7 +8,7 @@ using AutoMapper;
 namespace API.v1.api.Account.CreateAccount;
 
 using Oog.Domain;
-public class CreateAccountHandler(ICreateAccountRepository repository, IMapper mapper) : ICreateAccountHandler
+public class CreateAccount(ICreateAccountRepository repository, IMapper mapper) : ICreateAccountHandler
 {
     public async Task<AccountDto?> Create(CreateAccountRequest request)
     {
