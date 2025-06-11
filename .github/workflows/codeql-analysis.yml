@@ -1,4 +1,4 @@
-name: Security Analysis
+name: CodeQL
 
 on:
   pull_request:
@@ -41,5 +41,11 @@ jobs:
         run: |
           dotnet restore ./Oog.API.sln
           dotnet build ./Oog.API.sln --no-restore --configuration Release
-      
+
+      - name: Check Build Success
+        run: echo "Build completed"
+        
       - uses: github/codeql-action/analyze@v2
+        
+      - name: Debug current directory
+        run: ls -R
