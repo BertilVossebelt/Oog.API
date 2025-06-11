@@ -16,7 +16,7 @@ COPY --from=build /app/publish .
 
 #COPY aspnetapp.pfx /https/aspnetapp.pfx
 
-ENV ASPNETCORE_URLS="http://localhost:80"
+ENV ASPNETCORE_URLS="http://localhost:5000"
 #ENV ASPNETCORE_HTTPS_PORT=443
 #ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 #ENV ASPNETCORE_Kestrel__Certificates__Default__Password=YourSecurePassword
