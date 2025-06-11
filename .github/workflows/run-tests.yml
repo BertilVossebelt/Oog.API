@@ -29,13 +29,10 @@ jobs:
 
           public class AppSettings
           {
-              public const string CoreDbConnectionString = "\${{ secrets.CORE_DB_CONNECTION_STRING }}";
-              public const string LogDbConnectionString = "\${{ secrets.LOG_DB_CONNECTION_STRING }}";
+              public const string CoreDbConnectionString = @"${{ secrets.CORE_DB_CONNECTION_STRING }}";
+              public const string LogDbConnectionString = @"${{ secrets.LOG_DB_CONNECTION_STRING }}";
           }
           EOF
-          ls -la ./Oog.Migrations/
-          echo "File contents:"
-          cat ./Oog.Migrations/AppSettings.cs
 
       - name: Debug - List files
         run: |
