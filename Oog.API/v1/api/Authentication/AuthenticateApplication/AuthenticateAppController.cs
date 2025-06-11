@@ -29,7 +29,7 @@ public static class ReadAccountEndpoints
             var jwtSecret = configuration.GetSection("JwtSettings:AppSecret").Value;
             if (string.IsNullOrEmpty(jwtSecret))
             {
-                var errorMessage = new { message = "Something unexpected happend" };
+                var errorMessage = new { message = "Something unexpected happend." };
                 return Results.Json(errorMessage, statusCode: StatusCodes.Status500InternalServerError);
             }
 

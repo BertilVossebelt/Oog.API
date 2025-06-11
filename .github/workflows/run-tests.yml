@@ -1,0 +1,38 @@
+﻿name: .NET Build & Test
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Create AppSettings
+        run: |
+          tee ./Oog.Migrations/AppSettings.cs << EOF
+          namespace Oog.Migrations;
+
+          public class AppSettings
+          {
+              public const string CoreDbConnectionString = @"${{ secrets.CORE_DB_CONNECTION_STRING }}";
+              public const string LogDbConnectionString = @"${{ secrets.LOG_DB_CONNECTION_STRING }}";
+          }
+          EOF
+
+      - name: Restore dependencies
+        run: dotnet restore ./Oog.API.sln
+
+      - name: Build solution
+        run: dotnet build ./Oog.API.sln --no-restore --configuration Release

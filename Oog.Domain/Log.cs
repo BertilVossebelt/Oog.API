@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Oog.Domain.Enums;
+﻿using Oog.Domain.Enums;
 
 namespace Oog.Domain;
 

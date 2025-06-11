@@ -23,7 +23,7 @@ public static class CreateEnvironmentController
         {
             if (httpContext.Items["AccountId"] is not int accountId)
             {
-                var message = new { message = "Something unexpected happend" };
+                var message = new { message = "Something unexpected happend." };
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
@@ -34,7 +34,7 @@ public static class CreateEnvironmentController
         catch (Exception e)
         { 
             Console.WriteLine(e.Message);
-            var message = new { message = "Something unexpected happend" };
+            var message = new { message = "Something unexpected happend." };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
     }

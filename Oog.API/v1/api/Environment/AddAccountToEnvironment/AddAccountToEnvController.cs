@@ -24,7 +24,7 @@ public static class AddAccountToEnvController
         {
             if (httpContext.Items["AccountId"] is not int accountId)
             {
-                var message = new { message = "Something unexpected happend" };
+                var message = new { message = "Something unexpected happend.." };
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
@@ -43,7 +43,7 @@ public static class AddAccountToEnvController
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            var message = new { message = "Something unexpected happend" };
+            var message = new { message = "Something unexpected happend." };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
     }

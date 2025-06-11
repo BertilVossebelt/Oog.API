@@ -24,7 +24,7 @@ public class ClientConnectionHandler(IClientConnectionRepository repository) : I
     {
         // Ensure clientConnections[envId][accountId] is properly initialized.
         if (!clientConnections.ContainsKey(envId)) clientConnections[envId] = new Dictionary<int, List<string>>();
-        if (!clientConnections[envId]!.ContainsKey(accountId)) clientConnections[envId]![accountId] = new List<string>();
+        if (!clientConnections[envId]!.ContainsKey(accountId)) clientConnections[envId]![accountId] = [];
         
         // Exit if connectionId is already present.
         if (clientConnections[envId]![accountId].Contains(connectionId)) return;

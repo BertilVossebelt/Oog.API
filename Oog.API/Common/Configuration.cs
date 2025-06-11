@@ -31,10 +31,10 @@ public static class Configuration
         {
             app.UseSwagger().UseSwaggerUI();
         }
-        
+
         // Register middlewares for production only.
         if (app.Environment.IsProduction())
-        {            
+        {
             app.UseHttpsRedirection();
             app.UseHsts();
             app.ExceptionMiddleware();
@@ -44,7 +44,7 @@ public static class Configuration
 
         // Register middlewares that are used in both development and production.
         app.UseCors("_myAllowSpecificOrigins");
-        
+
         app.UseWhen(context =>
                 // Register routes that do not require user authorization.
                 !context.Request.Path.StartsWithSegments("/") &&
@@ -53,16 +53,16 @@ public static class Configuration
                 !context.Request.Path.StartsWithSegments("/api/v1/account/create") &&
                 !context.Request.Path.StartsWithSegments("/api/v1/account/authenticate") &&
                 !context.Request.Path.StartsWithSegments("/api/v1/application/authenticate"),
-            
+
             // Require authentication for everything else.
             appBuilder => { appBuilder.UseMiddleware<AccountAuthorizationMiddleware>(); }
         );
-        
+
         app.UseWhen(context =>
                 // Register routes that require application authorization.
                 context.Request.Path.StartsWithSegments("/api/v1/log/create"),
 
-                // Require authentication for everything else.
+            // Require authentication for everything else.
             appBuilder => { appBuilder.UseMiddleware<AppAuthorizationMiddleware>(); }
         );
     }
