@@ -5,6 +5,9 @@
 Oog.API/appsettings.json
 Oog.Migrations/AppSettings.cs
 
+# Docker
+.dockerignore
+
 # Other
 Oog.API/obj
 Oog.API/bin
