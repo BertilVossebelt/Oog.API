@@ -44,5 +44,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/${{ secrets.SERVER_USER }}/api
-            docker-compose down
-            docker-compose up --build -d
+            docker compose down
+            docker compose up --build -d
