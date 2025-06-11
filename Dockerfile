@@ -1,15 +1,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["Oog.API.sln", "./"]
 COPY ["Oog.API/Oog.API.csproj", "Oog.API/"]
 COPY ["Oog.Domain/Oog.Domain.csproj", "Oog.Domain/"]
-COPY ["Oog.Migrations/Oog.Migrations.csproj", "Oog.Migrations/"]
 
-RUN dotnet restore
+RUN dotnet restore "Oog.API/Oog.API.csproj"
 
 COPY . .
-RUN dotnet build -c Release --no-restore
+RUN dotnet build "Oog.API/Oog.API.csproj" -c Release --no-restore
 RUN dotnet publish "Oog.API/Oog.API.csproj" -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
