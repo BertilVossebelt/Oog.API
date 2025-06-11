@@ -29,8 +29,9 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            whoami
+            echo "Connection successful"
             pwd
+            whoami
 
       - name: Copy files to Server
         uses: appleboy/scp-action@master
