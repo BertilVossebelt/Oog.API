@@ -34,11 +34,6 @@ jobs:
           }
           EOF
 
-      - name: Debug - List files
-        run: |
-          ls -la ./Oog.Migrations/
-          cat ./Oog.Migrations/AppSettings.cs
-
       - name: Restore dependencies
         run: dotnet restore ./Oog.API.sln
 
