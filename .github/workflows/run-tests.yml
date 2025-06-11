@@ -20,9 +20,6 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Create AppSettings
-        run: echo 'namespace Oog.Migrations;public class AppSettings{public const string CoreDbConnectionString="${{ secrets.CORE_DB_CONNECTION_STRING }}";public const string LogDbConnectionString="${{ secrets.LOG_DB_CONNECTION_STRING }}";}' > ./Oog.Migrations/AppSettings.cs
-
-      - name: Create AppSettings
         run: |
           tee ./Oog.Migrations/AppSettings.cs << EOF
           namespace Oog.Migrations;

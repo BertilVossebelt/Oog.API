@@ -2,11 +2,9 @@ name: Security Analysis
 
 on:
   pull_request:
-    branches:
-      - main
-      - dev
+    branches: [ main, dev ]
   schedule:
-  - cron: '0 0 1 * *' # Run every month
+    - cron: '0 0 1 * *'  # Run at 00:00 on the first day of each month
 
 jobs:
   security-scan:
@@ -18,13 +16,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - uses: github/codeql-action/init@v2
-        with:
-          languages: csharp
-
+      
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
+      - name: Create AppSettings
+        run: |
+          tee ./Oog.Migrations/AppSettings.cs << EOF
+          namespace Oog.Migrations;
+
+          public class AppSettings
+          {
+              public const string CoreDbConnectionString = @"${{ secrets.CORE_DB_CONNECTION_STRING }}";
+              public const string LogDbConnectionString = @"${{ secrets.LOG_DB_CONNECTION_STRING }}";
+          }
+          EOF
+      
+      - uses: github/codeql-action/init@v2
+        with:
+          languages: csharp
+
+      - name: Build
+        run: |
+          dotnet restore ./Oog.API.sln
+          dotnet build ./Oog.API.sln --no-restore --configuration Release
+      
       - uses: github/codeql-action/analyze@v2
