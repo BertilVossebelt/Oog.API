@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.env (
     name VARCHAR(255) NOT NULL
 );
 
--- User table
+-- Account table
 CREATE TABLE IF NOT EXISTS public.account (
     id SERIAL PRIMARY KEY,                          
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -15,12 +15,10 @@ CREATE TABLE IF NOT EXISTS public.account (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Env_User table (many-to-many relationship)
+-- Env_Account table (many-to-many relationship)
 CREATE TABLE IF NOT EXISTS public.env_account (
     account_id INT REFERENCES public.account(id) ON DELETE CASCADE,
     env_id INT REFERENCES public.env(id) ON DELETE CASCADE,
-    owner BOOLEAN DEFAULT FALSE,
-    maintainer BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (account_id, env_id)
 );
 
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS public.role (
     name VARCHAR(255) NOT NULL
 );
 
--- User_Role table (many-to-many relationship)
+-- Account_Role table (many-to-many relationship)
 CREATE TABLE IF NOT EXISTS public.account_role (
     account_id INT REFERENCES public.account(id) ON DELETE CASCADE,
     role_id INT REFERENCES public.role(id) ON DELETE CASCADE,

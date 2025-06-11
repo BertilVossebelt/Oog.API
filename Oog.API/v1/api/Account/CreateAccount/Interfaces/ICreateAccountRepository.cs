@@ -1,8 +1,9 @@
 ﻿namespace API.v1.api.Account.CreateAccount.Interfaces;
 
+using Oog.Domain;
 public interface ICreateAccountRepository
 {
-    public Task<Oog.Domain.Account?> Create(Oog.Domain.Account request);
+    public Task<Account?> Create(Account request);
 
-    public Task<Oog.Domain.Account?> CheckIfAccountExists(Oog.Domain.Account account);
+    public Task<Account?> CheckIfAccountExists(Account account);
 }

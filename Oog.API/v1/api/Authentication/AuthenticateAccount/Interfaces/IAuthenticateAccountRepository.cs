@@ -2,7 +2,8 @@
 
 namespace API.v1.api.Authentication.AuthenticateAccount.Interfaces;
 
+using Oog.Domain;
 public interface IAuthenticateAccountRepository
 {
-    public Task<Oog.Domain.Account?> Authenticate(AuthenticateAccountRequest request);
+    public Task<Account?> Authenticate(AuthenticateAccountRequest request);
 }

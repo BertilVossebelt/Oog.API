@@ -1,7 +1,4 @@
-﻿using Oog.Domain;
-using Environment = Oog.Domain.Environment;
-
-namespace API.Common.DTOs;
+﻿namespace API.Common.DTOs;
 
 public class AccountDto
 {

@@ -25,7 +25,7 @@ public static class CreateAccountController
         try
         {
             var createdAccount = await _handler.Create(request);
-            return Results.Ok(createdAccount);
+            return Results.Ok(createdAccount); 
         }
         catch (UsernameAlreadyExistsException e)
         {

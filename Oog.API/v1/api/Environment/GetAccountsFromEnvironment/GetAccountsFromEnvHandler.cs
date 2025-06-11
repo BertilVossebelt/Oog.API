@@ -9,9 +9,9 @@ public class GetAccountsFromEnvHandler(IGetAccountsFromEnvRepository repository)
 {
     public Task<IEnumerable<AccountDto>> GetAccountsFromEnv(GetAccountsFromEnvRequest request, int accountId)
     {
-        var requestOwner = repository.GetEnvOwnerId(accountId);
+        var requestOwner = repository.GetEnvOwnerId(request.EnvId);
         if (requestOwner == null) throw new EnvNotFoundException("Environment does not exist or you don't have access to it");
-        
+    
         return repository.GetAccountsFromEnv(accountId, request.EnvId);
     }
 }
