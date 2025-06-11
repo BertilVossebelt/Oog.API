@@ -1,0 +1,51 @@
+name: CodeQL
+
+on:
+  pull_request:
+    branches: [ main, dev ]
+  schedule:
+    - cron: '0 0 1 * *'  # Run every month
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Create AppSettings
+        run: |
+          tee ./Oog.Migrations/AppSettings.cs << EOF
+          namespace Oog.Migrations;
+
+          public class AppSettings
+          {
+              public const string CoreDbConnectionString = @"${{ secrets.CORE_DB_CONNECTION_STRING }}";
+              public const string LogDbConnectionString = @"${{ secrets.LOG_DB_CONNECTION_STRING }}";
+          }
+          EOF
+      
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
+      - name: Build
+        run: |
+          dotnet restore ./Oog.API.sln
+          dotnet build ./Oog.API.sln --no-restore --configuration Release
+
+      - name: Check Build Success
+        run: echo "Build completed"
+        
+      - uses: github/codeql-action/analyze@v3
+        
+      - name: Debug current directory
+        run: ls -R
