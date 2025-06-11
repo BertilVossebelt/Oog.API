@@ -56,7 +56,6 @@ jobs:
             docker rm oog-api || true
             docker run -d \
               --name oog-api \
-              -p 443:443 \
-              -p 80:80 \
+              -p 127.0.0.1:5000:80 \
               --restart unless-stopped \
               oog-api
