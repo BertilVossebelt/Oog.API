@@ -1,7 +1,7 @@
 ﻿using API.Common.Middlewares;
-using API.v1.Account.CreateAccount.Requests;
 using API.v1.api.Account.CreateAccount.Exceptions;
 using API.v1.api.Account.CreateAccount.Interfaces;
+using API.v1.api.Account.CreateAccount.Requests;
 
 namespace API.v1.api.Account.CreateAccount;
 
