@@ -14,7 +14,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
 
-COPY aspnetapp.pfx /https/aspnetapp.pfx
+#COPY aspnetapp.pfx /https/aspnetapp.pfx
 
 ENV ASPNETCORE_URLS="http://localhost:80"
 #ENV ASPNETCORE_HTTPS_PORT=443
