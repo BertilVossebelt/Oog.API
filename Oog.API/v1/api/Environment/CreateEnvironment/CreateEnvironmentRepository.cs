@@ -9,7 +9,11 @@ namespace API.v1.api.Environment.CreateEnvironment;
 using Oog.Domain;
 public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : ICreateEnvironmentRepository
 {
-    public async Task<(Environment?, EnvAccount?, IEnumerable<Role>?)> Create(Environment environment, EnvAccount envAccount, List<Role> roles)
+    public async Task<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)> Create(
+        Environment environment, 
+        EnvAccount envAccount, 
+        List<Role> roles,
+        int accountId)
     {
         await using var connection = coreDbConnection.Connect();
         await using var transaction = await connection.BeginTransactionAsync(); // Start the transaction
@@ -18,7 +22,7 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
         {
             // Insert environment
             var createdEnv = await InsertEnvironment(connection, environment, transaction);
-            if (createdEnv == null) return (null, null, null); 
+            if (createdEnv == null) return (null, null, null, null); 
             
             // Update the environment object with the id from the database.
             envAccount.EnvId = createdEnv.Id;
@@ -28,7 +32,7 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
             if (createdEnvAccount == null) 
             {
                 await transaction.RollbackAsync();
-                return (createdEnv, null, null);
+                return (createdEnv, null, null, null);
             }
             
             // Insert roles
@@ -36,16 +40,45 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
             if (createdRoles?.Count() != 2) 
             {
                 await transaction.RollbackAsync();
-                return (createdEnv, createdEnvAccount, null);
+                return (createdEnv, createdEnvAccount, null, null);
+            }
+            
+            // Find the Owner role
+            var ownerRole = createdRoles.FirstOrDefault(r => r.Name == "Owner");
+            if (ownerRole == null)
+            {
+                await transaction.RollbackAsync();
+                return (createdEnv, createdEnvAccount, createdRoles, null);
+            }
+            
+            // Assign Owner role to account
+            var accountRole = new AccountRole
+            {
+                AccountId = accountId,
+                RoleId = ownerRole.Id
+            };
+            
+            var createdAccountRole = await AssignRoleToAccount(connection, accountRole, transaction);
+            if (createdAccountRole == null)
+            {
+                await transaction.RollbackAsync();
+                return (createdEnv, createdEnvAccount, createdRoles, null);
             }
 
             await transaction.CommitAsync();
-            return (createdEnv, createdEnvAccount, roles); 
+            return (createdEnv, createdEnvAccount, createdRoles, createdAccountRole); 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine($"Environment creation failed: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+            }
+            
             await transaction.RollbackAsync();
-            return (null, null, null);
+            return (null, null, null, null);
         }
     }
 
@@ -63,8 +96,8 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
     private async Task<EnvAccount?> InsertEnvAccount(NpgsqlConnection connection, EnvAccount envAccount, NpgsqlTransaction transaction)
     {
         const string query = """
-                             INSERT INTO env_account (account_id, env_id, owner)
-                             VALUES (@AccountId, @EnvId, @Owner)
+                             INSERT INTO env_account (account_id, env_id)
+                             VALUES (@AccountId, @EnvId)
                              RETURNING *
                              """;
         
@@ -78,15 +111,26 @@ public class CreateEnvironmentRepository(CoreDbConnection coreDbConnection) : IC
         {
                 role.EnvId = envId;
                 const string query = """
-                                                     INSERT INTO role (env_id, name)
-                                                     VALUES (@EnvId, @Name)
-                                                     RETURNING *
-                                                     """;
+                                     INSERT INTO role (env_id, name)
+                                     VALUES (@EnvId, @Name)
+                                     RETURNING *
+                                     """;
 
                 var createdRole = await connection.QueryFirstOrDefaultAsync<Role>(query, role, transaction);
                 if (createdRole != null) createdRoles.Add(createdRole);
         }
 
         return createdRoles;
+    }
+    
+    private async Task<AccountRole?> AssignRoleToAccount(NpgsqlConnection connection, AccountRole accountRole, NpgsqlTransaction transaction)
+    {
+        const string query = """
+                             INSERT INTO account_role (account_id, role_id)
+                             VALUES (@AccountId, @RoleId)
+                             RETURNING *
+                             """;
+        
+        return await connection.QueryFirstOrDefaultAsync<AccountRole>(query, accountRole, transaction);
     }
 }

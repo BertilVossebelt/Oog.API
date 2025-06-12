@@ -25,7 +25,7 @@ public static class ReadAccountRolesController
 
             if (httpContext.Items["AccountId"] is not int accountId)
             {
-                var message = new { message = "Something unexpected happend.." };
+                var message = new { message = "Something unexpected happened.." };
                 return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
             }
 
@@ -40,7 +40,7 @@ public static class ReadAccountRolesController
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            var message = new { message = "Something unexpected happend." };
+            var message = new { message = "Something unexpected happened." };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
 
