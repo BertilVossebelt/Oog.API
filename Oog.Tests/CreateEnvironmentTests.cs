@@ -21,6 +21,7 @@ public class CreateEnvironmentTests
     private Environment _createdEnv;
     private EnvAccount _createdEnvAccount;
     private List<Role> _createdRoles;
+    private AccountRole _createdAccountRole;
     private EnvironmentDto _expectedDto;
 
     [SetUp]
@@ -43,7 +44,6 @@ public class CreateEnvironmentTests
         {
             AccountId = _accountId,
             EnvId = _createdEnv.Id,
-            Owner = true
         };
 
         _createdRoles =
@@ -52,15 +52,20 @@ public class CreateEnvironmentTests
             new Role { Id = 2, Name = "Maintainer", EnvId = _createdEnv.Id }
         ];
 
-        // Mock the repository response with Task.FromResult
+        _createdAccountRole = new AccountRole
+        {
+            AccountId = _accountId,
+            RoleId = _createdRoles[0].Id
+        };
+
         _repository.Create(
             Arg.Any<Environment>(),
             Arg.Any<EnvAccount>(),
-            Arg.Any<List<Role>>()
-        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>(
-            (_createdEnv, _createdEnvAccount, _createdRoles)));
+            Arg.Any<List<Role>>(),
+            Arg.Any<int>()
+        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)>(
+            (_createdEnv, _createdEnvAccount, _createdRoles, _createdAccountRole)));
 
-        // Mock the mapper response
         _expectedDto = new EnvironmentDto
         {
             Id = _createdEnv.Id,
@@ -87,8 +92,8 @@ public class CreateEnvironmentTests
     public void Create_WhenEnvironmentCreationFails_ThrowsException()
     {
         // Arrange
-        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>())
-            .Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>((null, _createdEnvAccount, _createdRoles)));
+        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>(), Arg.Any<int>())
+            .Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)>((null, _createdEnvAccount, _createdRoles, _createdAccountRole)));
 
         // Act & Assert
         Assert.ThrowsAsync<Exception>(async () => await _handler.Create(_validRequest, _accountId));
@@ -98,8 +103,8 @@ public class CreateEnvironmentTests
     public void Create_WhenEnvAccountCreationFails_ThrowsException()
     {
         // Arrange
-        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>()
-        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>((_createdEnv, null, _createdRoles)));
+        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>(), Arg.Any<int>()
+        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)>((_createdEnv, null, _createdRoles, _createdAccountRole)));
 
         // Act & Assert
         Assert.ThrowsAsync<Exception>(async () => await _handler.Create(_validRequest, _accountId));
@@ -109,8 +114,8 @@ public class CreateEnvironmentTests
     public void Create_WhenRolesCreationFails_ThrowsException()
     {
         // Arrange
-        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>())
-            .Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>((_createdEnv, _createdEnvAccount, null)));
+        _repository.Create(Arg.Any<Environment>(), Arg.Any<EnvAccount>(), Arg.Any<List<Role>>(), Arg.Any<int>())
+            .Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)>((_createdEnv, _createdEnvAccount, null, _createdAccountRole)));
 
         // Act & Assert
         Assert.ThrowsAsync<Exception>(async () => await _handler.Create(_validRequest, _accountId));

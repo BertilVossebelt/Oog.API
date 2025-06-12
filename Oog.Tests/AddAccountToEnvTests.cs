@@ -41,14 +41,12 @@ public class AddAccountToEnvTests
         {
             AccountId = 3,
             EnvId = _validRequest.EnvId,
-            Owner = true
         };
 
         _createdEnvAccount = new EnvAccount
         {
             AccountId = accountResponse.Id,
             EnvId = _validRequest.EnvId,
-            Owner = false
         };
 
         _repository.GetEnvOwnerId(_validRequest.EnvId).Returns(Task.FromResult<EnvAccount?>(envOwnerAccount));
@@ -110,7 +108,6 @@ public class AddAccountToEnvTests
         {
             Assert.That(result.AccountId, Is.EqualTo(accountResponse.Id));
             Assert.That(result.EnvId, Is.EqualTo(_validRequest.EnvId));
-            Assert.That(result.Owner, Is.False);
         });
     }
 }

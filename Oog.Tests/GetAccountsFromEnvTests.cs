@@ -35,7 +35,6 @@ public class GetAccountsFromEnvTests
         {
             AccountId = _accountId,
             EnvId = _validRequest.EnvId,
-            Owner = true
         };
 
         _accountList =
