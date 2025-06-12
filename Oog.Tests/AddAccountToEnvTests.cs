@@ -74,8 +74,7 @@ public class AddAccountToEnvTests
         _repository.GetEnvOwnerId(_validRequest.EnvId).Returns(Task.FromResult<EnvAccount?>(null));
 
         // Act & Assert
-        Assert.ThrowsAsync<EnvNotFoundException>(
-            async () => await _handler.AddAccountToEnv(_validRequest, _requestingAccountId));
+        Assert.ThrowsAsync<EnvNotFoundException>(async () => await _handler.AddAccountToEnv(_validRequest, _requestingAccountId));
     }
 
     [Test]

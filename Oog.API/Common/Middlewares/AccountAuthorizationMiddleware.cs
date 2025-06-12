@@ -31,7 +31,7 @@ public class AccountAuthorizationMiddleware(RequestDelegate? next)
         
         try
         {
-            // Validate the access token.
+            // Validate access token.
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtSecret);
             tokenHandler.ValidateToken(accessToken, new TokenValidationParameters
@@ -43,7 +43,7 @@ public class AccountAuthorizationMiddleware(RequestDelegate? next)
                 ClockSkew = TimeSpan.Zero,
             }, out SecurityToken validatedToken);
 
-            // Attach the account id and username to the HttpContext for easy access.
+            // Attach payload details to HttpContext.
             var jwtToken = (JwtSecurityToken)validatedToken;
             context.Items["AccountId"] = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value);
             context.Items["Username"] = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;

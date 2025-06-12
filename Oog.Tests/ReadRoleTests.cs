@@ -100,11 +100,11 @@ public class ReadRoleTests
     
     [TestCase("Owner")]
     [TestCase("Maintainer")]
-    public async Task Get_WithSufficientRoleInMixedRoleList_ReturnsRoles(string sufficientRole)
+    public async Task Get_WithSufficientRoleInMixedRoleList_ReturnsRoles(string role)
     {
         // Arrange
         _repository.GetAccountRoles(_accountId, _envId)
-            .Returns(Task.FromResult<IEnumerable<string>>(["User", sufficientRole, "Viewer"]));
+            .Returns(Task.FromResult<IEnumerable<string>>(["User", role, "Viewer"]));
         
         // Act
         var result = await _handler.Get(_envId, _accountId);
