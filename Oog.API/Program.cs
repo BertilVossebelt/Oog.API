@@ -40,8 +40,8 @@ builder.Services.AddScoped<CoreDbConnection>();
 builder.Services.AddScoped<LogDbConnection>();
 
 // SignalR connection management.
-builder.Services.AddScoped<IClientConnectionHandler, ClientConnectionHandler>();
-builder.Services.AddScoped<IClientConnectionRepository, ClientConnectionRepository>();
+builder.Services.AddSingleton<IClientConnectionHandler, ClientConnectionHandler>();
+builder.Services.AddSingleton<IClientConnectionRepository, ClientConnectionRepository>();
 
 // Register SignalR hubs.
 builder.Services.AddScoped<LogHub>();
