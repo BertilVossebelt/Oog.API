@@ -13,7 +13,12 @@ public static class Configuration
                 options.AddPolicy("_myAllowSpecificOrigins",
                     corsPolicyBuilder =>
                     {
-                        corsPolicyBuilder.WithOrigins("https://localhost:5050")
+                        corsPolicyBuilder.WithOrigins(       
+                                "https://localhost:4000",
+                                "https://localhost:4040",
+                                "https://localhost:5050",
+                                "https://webserver.ajvossebelt.nl"
+                            )
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();

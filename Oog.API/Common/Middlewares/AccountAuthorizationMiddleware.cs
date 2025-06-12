@@ -13,7 +13,7 @@ public class AccountAuthorizationMiddleware(RequestDelegate? next)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Response.ContentType = "application/json";
-            var message = new { message = "Something unexpected happend." };
+            var message = new { message = "Something unexpected happened." };
             await context.Response.WriteAsJsonAsync(message);
             return;
         }

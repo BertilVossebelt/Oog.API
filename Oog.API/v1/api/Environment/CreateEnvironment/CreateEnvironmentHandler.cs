@@ -13,7 +13,7 @@ public class CreateEnvironmentHandler(ICreateEnvironmentRepository repository, I
     {
         // Setup entities.
         var env = new Environment { Name = request.Name };
-        var envAccount = new EnvAccount { AccountId = accountId, EnvId = env.Id, Owner = true };
+        var envAccount = new EnvAccount { AccountId = accountId, EnvId = env.Id };
 
         var roles = new List<Role>();
         var owner = new Role { Name = "Owner" };
@@ -21,13 +21,15 @@ public class CreateEnvironmentHandler(ICreateEnvironmentRepository repository, I
         roles.Add(owner);
         roles.Add(maintainer);
         
-        // Try to create env.
-        var (createdEnv, createdEnvAccount, createdRoles) = await repository.Create(env, envAccount, roles);
+        // Try to create env with roles and account-role relationship.
+        var (createdEnv, createdEnvAccount, createdRoles, createdAccountRole) = 
+            await repository.Create(env, envAccount, roles, accountId);
         
         // Check if env was created successfully.
         if (createdEnv == null) throw new Exception("Failed to create environment");
-        if (createdEnvAccount == null) throw new Exception("Failed to add owner to environment");
+        if (createdEnvAccount == null) throw new Exception("Failed to add account to environment");
         if (createdRoles == null) throw new Exception("Failed to add default system roles to environment");
+        if (createdAccountRole == null) throw new Exception("Failed to assign Owner role to account");
 
         // Map to DTO and return to controller.
         var environmentDto = mapper.Map<EnvironmentDto>(createdEnv);
