@@ -1,16 +1,24 @@
 ﻿using API.Common.Databases;
 using API.v1.rtes.Connection.Interfaces;
 using Dapper;
-using Oog.Domain;
 
 namespace API.v1.rtes.Connection;
 
-public class ClientConnectionRepository(CoreDbConnection coreDbConnection) : IClientConnectionRepository
+public class ClientConnectionRepository : IClientConnectionRepository
 {
+    private readonly IServiceProvider _serviceProvider;
+
+    public ClientConnectionRepository(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
     public async Task<IEnumerable<string>> GetRoles(int accountId, int envId)
     {
+        using var scope = _serviceProvider.CreateScope();
+        var coreDbConnection = scope.ServiceProvider.GetRequiredService<CoreDbConnection>();
         await using var connection = coreDbConnection.Connect();
-        
+
         const string query = """
                              SELECT r.name 
                              FROM account_role ar

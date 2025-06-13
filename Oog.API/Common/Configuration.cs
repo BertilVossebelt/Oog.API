@@ -1,4 +1,7 @@
-﻿using API.Common.Middlewares;
+﻿using System.Threading.RateLimiting;
+using API.Common.Middlewares;
+using System.Threading.RateLimiting;
+using AspNetCoreRateLimit;
 
 namespace API.Common;
 
@@ -13,7 +16,7 @@ public static class Configuration
                 options.AddPolicy("_myAllowSpecificOrigins",
                     corsPolicyBuilder =>
                     {
-                        corsPolicyBuilder.WithOrigins(       
+                        corsPolicyBuilder.WithOrigins(
                                 "https://localhost:4000",
                                 "https://localhost:4040",
                                 "https://localhost:5050",
@@ -40,6 +43,7 @@ public static class Configuration
         // Register middlewares for production only.
         if (app.Environment.IsProduction())
         {
+            app.UseIpRateLimiting();
             app.UseHttpsRedirection();
             app.UseHsts();
             app.ExceptionMiddleware();

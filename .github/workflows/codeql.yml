@@ -44,3 +44,4 @@ jobs:
           dotnet build ./Oog.API.sln --no-restore --configuration Release
         
       - uses: github/codeql-action/analyze@v3
+
