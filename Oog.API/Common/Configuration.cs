@@ -14,7 +14,6 @@ public static class Configuration
         builder.Services
             .AddMemoryCache()
             .Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"))
-            .Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"))
             .AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>()
             .AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>()
             .AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>()
