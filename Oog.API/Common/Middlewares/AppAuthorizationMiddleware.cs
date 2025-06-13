@@ -43,7 +43,7 @@ public class AppAuthorizationMiddleware(RequestDelegate? next)
                 ClockSkew = TimeSpan.Zero,
             }, out SecurityToken validatedToken);
 
-            // Attach the app id and name to the HttpContext for easy access.
+            // Attach jwt payload to HttpContext.
             var jwtToken = (JwtSecurityToken)validatedToken;
             context.Items["AppId"] = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value);
             context.Items["Name"] = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;

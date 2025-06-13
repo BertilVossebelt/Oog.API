@@ -21,13 +21,8 @@ public class GetAccountsFromEnvTests
     [SetUp]
     public void Setup()
     {
-        // Create the mock repository
         _repository = Substitute.For<IGetAccountsFromEnvRepository>();
-
-        // Create the handler
         _handler = new GetAccountsFromEnvHandler(_repository);
-
-        // Test data
         _accountId = 1;
         _validRequest = new GetAccountsFromEnvRequest(5);
 

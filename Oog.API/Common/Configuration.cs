@@ -9,7 +9,17 @@ public static class Configuration
 {
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddMemoryCache();
+
         builder.Services
+            .AddMemoryCache()
+            .Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"))
+            .Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"))
+            .AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>()
+            .AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>()
+            .AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>()
+            .AddInMemoryRateLimiting()
+            .AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddCors(options =>
