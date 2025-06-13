@@ -36,7 +36,7 @@ public static class CreateAppController
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            var message = new { message = "Something unexpected happend." };
+            var message = new { message = "Something unexpected happened." };
             return Results.Json(message, statusCode: StatusCodes.Status500InternalServerError);
         }
     }

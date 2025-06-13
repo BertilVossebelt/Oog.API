@@ -52,12 +52,15 @@ public class CreateEnvironmentTests
             new Role { Id = 2, Name = "Maintainer", EnvId = _createdEnv.Id }
         ];
 
+        // Mock the repository response with Task.FromResult
         _repository.Create(
             Arg.Any<Environment>(),
             Arg.Any<EnvAccount>(),
             Arg.Any<List<Role>>()
-        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>((_createdEnv, _createdEnvAccount, _createdRoles)));
+        ).Returns(Task.FromResult<(Environment?, EnvAccount?, IEnumerable<Role>?)>(
+            (_createdEnv, _createdEnvAccount, _createdRoles)));
 
+        // Mock the mapper response
         _expectedDto = new EnvironmentDto
         {
             Id = _createdEnv.Id,

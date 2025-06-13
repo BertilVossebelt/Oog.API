@@ -1,4 +1,7 @@
-﻿using API.Common.Middlewares;
+﻿using System.Threading.RateLimiting;
+using API.Common.Middlewares;
+using System.Threading.RateLimiting;
+using AspNetCoreRateLimit;
 
 namespace API.Common;
 
@@ -6,14 +9,29 @@ public static class Configuration
 {
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddMemoryCache();
+
         builder.Services
+            .AddMemoryCache()
+            .Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"))
+            .Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"))
+            .AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>()
+            .AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>()
+            .AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>()
+            .AddInMemoryRateLimiting()
+            .AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddCors(options =>
                 options.AddPolicy("_myAllowSpecificOrigins",
                     corsPolicyBuilder =>
                     {
-                        corsPolicyBuilder.WithOrigins("https://localhost:5050")
+                        corsPolicyBuilder.WithOrigins(
+                                "https://localhost:4000",
+                                "https://localhost:4040",
+                                "https://localhost:5050",
+                                "https://webserver.ajvossebelt.nl"
+                            )
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
@@ -35,6 +53,7 @@ public static class Configuration
         // Register middlewares for production only.
         if (app.Environment.IsProduction())
         {
+            app.UseIpRateLimiting();
             app.UseHttpsRedirection();
             app.UseHsts();
             app.ExceptionMiddleware();

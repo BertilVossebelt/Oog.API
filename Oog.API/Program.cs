@@ -26,10 +26,10 @@ using API.v1.api.Role.CreateRole;
 using API.v1.api.Role.CreateRole.Interfaces;
 using API.v1.api.Role.ReadRole;
 using API.v1.api.Role.ReadRole.Interface;
-using API.v1.rtes;
 using API.v1.rtes.Connection;
 using API.v1.rtes.Connection.Interfaces;
 using API.v1.rtes.Hubs.Log;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,14 +40,14 @@ builder.Services.AddScoped<CoreDbConnection>();
 builder.Services.AddScoped<LogDbConnection>();
 
 // SignalR connection management.
-builder.Services.AddScoped<IClientConnectionHandler, ClientConnectionHandler>();
-builder.Services.AddScoped<IClientConnectionRepository, ClientConnectionRepository>();
+builder.Services.AddSingleton<IClientConnectionHandler, ClientConnectionHandler>();
+builder.Services.AddSingleton<IClientConnectionRepository, ClientConnectionRepository>();
 
 // Register SignalR hubs.
 builder.Services.AddScoped<LogHub>();
 
 // Register repositories and handlers.
-builder.Services.AddScoped<ICreateAccountHandler, CreateAccount>();
+builder.Services.AddScoped<ICreateAccountHandler, CreateAccountHandler>();
 builder.Services.AddScoped<ICreateAccountRepository, CreateAccountRepository>();
 
 builder.Services.AddScoped<IAuthenticateAccountHandler, AuthenticateAccountHandler>();

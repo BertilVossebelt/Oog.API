@@ -19,7 +19,6 @@ public class AddAccountToEnvHandler(IAddAccountToEnvRepository repository) : IAd
         {
             AccountId = requestId.Id,
             EnvId = request.EnvId,
-            Owner = false,
         };
 
         return await repository.AddAccountToEnv(envAccount);

@@ -11,9 +11,9 @@ using NUnit.Framework;
 namespace Tests;
 
 [TestFixture]
-public class CreateAccountTests
+public class CreateAccountHandlerTests
 {
-    private CreateAccount _handler;
+    private CreateAccountHandler _handler;
     private ICreateAccountRepository _repository;
     private IMapper _mapper;
     private CreateAccountRequest _validRequest;
@@ -26,7 +26,7 @@ public class CreateAccountTests
         _repository = Substitute.For<ICreateAccountRepository>();
         _mapper = Substitute.For<IMapper>();
         
-        _handler = new CreateAccount(_repository, _mapper);
+        _handler = new CreateAccountHandler(_repository, _mapper);
 
         _validRequest = new CreateAccountRequest(
             username: "testuser@example.com",

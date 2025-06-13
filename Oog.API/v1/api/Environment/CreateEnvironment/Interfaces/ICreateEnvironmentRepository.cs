@@ -1,9 +1,11 @@
-﻿using Oog.Domain;
-
-namespace API.v1.api.Environment.CreateEnvironment.Interfaces;
+﻿namespace API.v1.api.Environment.CreateEnvironment.Interfaces;
 
 using Oog.Domain;
 public interface ICreateEnvironmentRepository
 {
-    public Task<(Environment?, EnvAccount?, IEnumerable<Role>?)> Create(Environment environment, EnvAccount envAccount, List<Role> roles);
+    Task<(Environment?, EnvAccount?, IEnumerable<Role>?, AccountRole?)> Create(
+        Environment environment, 
+        EnvAccount envAccount, 
+        List<Role> roles,
+        int accountId);
 }

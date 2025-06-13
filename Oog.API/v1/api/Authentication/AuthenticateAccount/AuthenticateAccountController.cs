@@ -27,7 +27,7 @@ public static class AuthenticateAccountEndpoints
             var jwtSecret = configuration.GetSection("JwtSettings:AccountSecret").Value;
             if (string.IsNullOrEmpty(jwtSecret))
             {
-                var errorMessage = new { message = "Something unexpected happend." };
+                var errorMessage = new { message = "Something unexpected happened." };
                 return Results.Json(errorMessage, statusCode: StatusCodes.Status500InternalServerError);
             }
 
@@ -37,12 +37,11 @@ public static class AuthenticateAccountEndpoints
             // Make sure the cookie cannot be accessed with JavaScript by enabling HttpOnly.
             var cookieOptions = new CookieOptions
             {
-                Domain = "localhost",
-                Path = "/",
                 Expires = DateTimeOffset.UtcNow.AddDays(1),
                 Secure = true,
                 HttpOnly = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Strict,
+                Domain = "webserver.ajvossebelt.nl",
             };
 
             // Set the JWT token in a cookie.
