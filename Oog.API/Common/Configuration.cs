@@ -1,7 +1,10 @@
-﻿using System.Threading.RateLimiting;
+﻿using System.Net;
+using System.Threading.RateLimiting;
 using API.Common.Middlewares;
 using System.Threading.RateLimiting;
 using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.HttpOverrides;
+using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 
 namespace API.Common;
 
@@ -9,8 +12,6 @@ public static class Configuration
 {
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddMemoryCache();
-
         builder.Services
             .AddMemoryCache()
             .Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"))
@@ -19,6 +20,14 @@ public static class Configuration
             .AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>()
             .AddInMemoryRateLimiting()
             .AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
+            .Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardLimit = 1;
+                options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
+                options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("172.18.0.0"), 16));
+                
+            })
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddCors(options =>
