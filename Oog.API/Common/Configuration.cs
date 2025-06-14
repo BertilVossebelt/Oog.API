@@ -49,8 +49,8 @@ public static class Configuration
         if (app.Environment.IsProduction())
         {
             app.UseIpRateLimiting();
-            app.UseHttpsRedirection();
             app.UseHsts();
+            app.UseHttpsRedirection();
             app.ExceptionMiddleware();
             app.HttpRequestExceptionMiddleware();
             app.InvalidDataExceptionMiddleware();
